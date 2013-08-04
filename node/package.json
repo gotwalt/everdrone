@@ -11,14 +11,15 @@
     {
       "name": "Aaron Gotwalt",
       "email": "gotwalt@everlapse.com"
-    } 
+    }
   ],
   "scripts": {
     "start": "node ./bin/everdrone"
   },
   "main": "./bin/everdrone",
   "dependencies": {
-    "gphoto2": "*"
+    "gphoto2": "*",
+    "needle": "*"
   }
 }
 
