@@ -10,17 +10,24 @@ GPhoto.list(function(list){
   var camera = list[0];
   console.log("Found", camera.model);
 
+  function prettyJSON(obj) {
+    console.log(JSON.stringify(obj, null, 2));
+  }
+
+  // get configuration tree
+  camera.getConfig(function(er, settings){
+    prettyJSON(settings);
+  });
+
   // Take picture with camera object obtained from list()
   camera.takePicture({download:true}, function(er, data){
-	console.log('here');
+    console.log('here');
     fs.writeFile("picture.jpg", data);
   });
 
+
+
 /*
-  // get configuration tree
-  camera.getConfig(function(er, settings){
-    console.log(settings);
-  });
 
   // Set configuration values
   camera.setConfigValue('capturetarget', 1, function(er){
