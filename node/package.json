@@ -18,8 +18,9 @@
   },
   "main": "./bin/everdrone",
   "dependencies": {
-    "gphoto2": "*",
-    "needle": "*"
+    "gphoto2": "latest",
+    "needle": "latest",
+    "async": "latest"
   }
 }
 
