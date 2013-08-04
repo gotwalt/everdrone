@@ -14,8 +14,6 @@ async.waterfall([
     upload_params['file'] = { file: './../sample.jpg', content_type: 'image/jpeg' }
     var options = { multipart: true, follow: 3 }
     needle.post(frame.upload_url, upload_params, options, function(error, response, body) {
-      console.log(response);
-      return;
       needle.head(response.headers.location, {follow: 3}, function() { callback(null, frame) })
     });
   },
@@ -28,6 +26,9 @@ async.waterfall([
   function(clip, callback) {
     console.log('published clip - ' + clip.slug);
     everlapse.destroyClip(clip.id, function(clip) { callback(null, clip) })
+  },
+  function(clip, callback) {
+    console.log('destroyed clip')
   }
 ])
 // everlapse.createClip(function(clip) {
