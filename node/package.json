@@ -18,16 +18,11 @@
   },
   "main": "./bin/everdrone",
   "dependencies": {
-<<<<<<< Updated upstream
     "gphoto2": "latest",
     "needle": "latest",
     "async": "latest"
-=======
-    "needle": "latest",
-    "gphoto2": "latest",
-    "async": "latest",
-    "node-fs": "latest"
->>>>>>> Stashed changes
+    "node-fs": "latest",
+    "gm": "latest"
   }
 }
 
