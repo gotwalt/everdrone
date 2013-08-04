@@ -33,48 +33,52 @@ var lapse = module.exports = {};
     })
   }
 
+  this.publishClip = function(clip_id, data, callback) {
+    needle.post(this.url('/clips/' + clip_id + '/publish'), JSON.stringify(data), this.options, function(error, response, body) {
+      if (response.statusCode >= 200 & response.statusCode < 400) {
+        callback.call(null, body)
+      }
+    })
+  }
+
+  this.submitFrames = function(clip_id, frame_ids, callback) {
+    needle.post(this.url('/clips/' + clip_id + '/submit_frames'), JSON.stringify({ frame_ids: frame_ids }), this.options, function(error, response, body) {
+      if (response.statusCode >= 200 & response.statusCode < 400) {
+        callback.call(null, body)
+      }
+    })
+  }
+
   this.options = {
-    headers: {'Authorization': 'Bearer 2O0P1T0E0d3Q0W0R1U2l2B1z2D0q2O0T'}
+    headers: {'Authorization': 'Bearer ' + process.env.EVERLAPSE_TOKEN, 'Content-Type': 'application/json'},
+    parse: true
   }
 
   this.url = function(path) {
     return 'https://everlapse.com/api/v1' + path
   }
-
-  this.makeRequest = function(verb, path, data, callback) {
-    var options = {
-      host: 'everlapse.com',
-      port: 443,
-      path: path,
-      method: verb,
-      headers: {
-        'Authorization': 'Bearer 2O0P1T0E0d3Q0W0R1U2l2B1z2D0q2O0T'
-      }
-    };
-
-    var req = http.request(options, function(res) {
-      res.setEncoding('utf8');
-      var results = [];
-      res.on('data', function (chunk) {
-        results.push(chunk);
-      });
-      res.on('end', function() {
-        var result = results.join('');
-        var json = (result.length > 0) ? JSON.parse(result) : {};
-        callback.call(json, json)
-      })
-    });
-    req.end();
-  }
 }).call(lapse);
 
 lapse.createClip(function(clip) {
-  console.log(clip);
   lapse.createFrame(clip.id, function(frame) {
-    console.log(frame);
-
-    lapse.destroyClip(clip.id, function(data) {
-      console.log('Destroyed')
+    var upload_params = frame.upload_params;
+    upload_params['file'] = { file: '/Users/gotwalt/src/everdrone/sample.jpg', content_type: 'image/jpeg' }
+    var options = {
+      multipart: true,
+      follow: 3
+    }
+    needle.post(frame.upload_url, upload_params, options, function(upload) {
+      console.log('Uploaded')
+      lapse.submitFrames(clip.id, [frame.id], function() {
+        console.log('Frames submitted')
+        lapse.publishClip(clip.id, {title: 'Test Clip'}, function(data) {
+          console.log('Published');
+          console.log(data)
+          lapse.destroyClip(clip.id, function(data) {
+            console.log('Destroyed')
+          })
+        })
+      })
     })
   })
 
