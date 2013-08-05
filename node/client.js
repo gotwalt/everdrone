@@ -47,7 +47,7 @@ console.log('Token set, thank you. ("' + aToken + '")');
 
             })
           })
-        
+
         },
         function(callback) {
           console.log('Creating frame for clipId: ' + clipId);
@@ -63,8 +63,8 @@ console.log('Token set, thank you. ("' + aToken + '")');
             console.log('Sleeping 5 seconds...')
             needle.head(response.headers.location, {follow: 3}, function() {
               setTimeout(function() {
-                console.log('Frame created.'); 
-                callback(null, frame) 
+                console.log('Frame created.');
+                callback(null, frame)
               }, 5000);
             })
           });
@@ -97,7 +97,7 @@ console.log('Token set, thank you. ("' + aToken + '")');
         },
         function(frame, callback) {
           console.log('Publishing clip, clipId: ' + frame.clip_id)
-          everlapse.publishClip(frame.clip_id, {title: 'Test Clip'}, function(clip) { callback(null, clip) })
+          everlapse.publishClip(frame.clip_id, {title: aNewClip}, function(clip) { callback(null, clip) })
         },
         function() {
           console.log('Clip published.');
