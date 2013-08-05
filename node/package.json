@@ -22,7 +22,10 @@
     "needle": "latest",
     "async": "latest",
     "node-fs": "latest",
-    "gm": "latest"
+    "gm": "latest",
+    "promises": "latest",
+    "tmp": "latest",
+    "optimist": "latest"
   }
 }
 
